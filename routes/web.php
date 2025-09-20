@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\OtpController;
 use App\Http\Controllers\ProfileController;
@@ -27,6 +28,10 @@ Route::middleware(['auth', 'otp.verified'])->group(function () {
     Route::post('/send_message', [MessageController::class, 'send'])->name('send.message');
     Route::get('/reminders_message', [ReminderController::class, 'index'])->name('reminders.index');
     Route::post('/reminders_message', [ReminderController::class, 'store'])->name('reminders.store');
+
+    Route::resource('/contacts', ContactController::class);
+
+    Route::post('/contacts/import', [ContactController::class, 'import'])->name('contacts.import');
 
     Route::post('/webhook/gowa', [WebhookController::class, 'handle']);
 
