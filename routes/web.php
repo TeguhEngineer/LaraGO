@@ -11,8 +11,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-
-
 Route::get('/dashboard', function () {
     // dd(session()->all());
     return view('dashboard');
@@ -25,7 +23,7 @@ Route::middleware('otp.redirect')->group(function () {
 });
 
 Route::middleware(['auth', 'otp.verified'])->group(function () {
-    Route::get('/send_message', [MessageController::class, 'index'])->name('index.message');
+    Route::get('/send_message', [MessageController::class, 'index'])->name('message.index');
     Route::post('/send_message', [MessageController::class, 'send'])->name('send.message');
     Route::get('/reminders_message', [ReminderController::class, 'index'])->name('reminders.index');
     Route::post('/reminders_message', [ReminderController::class, 'store'])->name('reminders.store');
