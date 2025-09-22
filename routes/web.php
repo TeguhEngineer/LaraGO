@@ -32,8 +32,10 @@ Route::middleware(['auth', 'otp.verified'])->group(function () {
     Route::resource('/contacts', ContactController::class);
 
     Route::post('/contacts/import', [ContactController::class, 'import'])->name('contacts.import');
-
+    Route::post('/contacts/import/confirm', [ContactController::class, 'confirmImport'])->name('contacts.import.confirm');
+    
     Route::post('/webhook/gowa', [WebhookController::class, 'handle']);
+    
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
