@@ -1,3 +1,4 @@
+{{-- resources/views/contacts/index.blade.php --}}
 <x-app-layout>
     <x-slot name="header">
         {{ __('Contact') }}
@@ -6,7 +7,7 @@
     <div class="py-4">
         <div class="mx-auto sm:px-6 lg:px-8">
             <div class="overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900 dark:text-gray-100 grid grid-cols-12  gap-6">
+                <div class="p-6 text-gray-900 dark:text-gray-100 grid grid-cols-12 gap-6">
 
                     {{-- TABLE CONTACT --}}
                     <div class="bg-gray-100 dark:bg-gray-700 p-6 rounded-xl shadow col-span-12 lg:col-span-7">
@@ -105,14 +106,14 @@
     <div id="importModal" class="hidden fixed inset-0 z-50 flex items-center justify-center w-full h-full bg-black/50">
         <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg w-full max-w-md p-6">
             <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Import Kontak dari Excel</h3>
-            <form action="{{ route('contacts.import') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('contacts.import.upload') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="mb-4">
                     <input type="file" name="file" required
                         class="block w-full text-sm text-gray-900 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg cursor-pointer focus:outline-none dark:text-gray-100">
                 </div>
                 <div class="flex justify-end gap-2">
-                    <button type="button" onclick="document.getElementById('importModal').classList.add('hidden')"
+                    <button type="button" onclick="closeImportModal()"
                         class="px-4 py-2 bg-gray-300 hover:bg-gray-400 text-gray-900 rounded-lg text-sm dark:bg-gray-600 dark:text-gray-100 dark:hover:bg-gray-500">
                         Batal
                     </button>
@@ -124,39 +125,6 @@
             </form>
         </div>
     </div>
-    {{-- Jika ada error per baris --}}
-    @if (session('errors_import'))
-        <div class="alert alert-danger">
-            <p><strong>Ada data invalid:</strong></p>
-            <ul>
-                @foreach (session('errors_import') as $err)
-                    <li>Baris {{ $err['row'] }}: {{ implode(', ', $err['messages']) }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
-
-    @if (session('need_confirm'))
-        <form action="{{ route('contacts.import.confirm') }}" method="POST">
-            @csrf
-            <button type="submit" class="btn btn-success">
-                Lanjutkan simpan data valid
-            </button>
-        </form>
-    @endif
-
-    @if (session('need_confirm_skip'))
-        <div class="alert alert-warning">
-            Sebagian nomor sudah ada di database:
-            {{ implode(', ', session('existing_rows')->toArray()) }}.
-        </div>
-        <form action="{{ route('contacts.import.confirm') }}" method="POST">
-            @csrf
-            <button type="submit" class="btn btn-warning">
-                Lanjutkan dan skip duplikat
-            </button>
-        </form>
-    @endif
 
     {{-- MODAL UPDATE CONTACT --}}
     <div id="contactModal" tabindex="-1" aria-hidden="true"
@@ -204,7 +172,6 @@
         </div>
     </div>
 
-
     <script>
         function editContactModal(button) {
             let id = button.getAttribute("data-id");
@@ -236,19 +203,16 @@
 
         function contactDelete(id, name) {
             if (confirm("Yakin ingin menghapus kontak: " + name + " ?")) {
-                // buat form delete secara dinamis
                 let form = document.createElement('form');
                 form.method = 'POST';
                 form.action = '/contacts/' + id;
 
-                // csrf token
                 let csrf = document.createElement('input');
                 csrf.type = 'hidden';
                 csrf.name = '_token';
                 csrf.value = '{{ csrf_token() }}';
                 form.appendChild(csrf);
 
-                // spoof method DELETE
                 let method = document.createElement('input');
                 method.type = 'hidden';
                 method.name = '_method';

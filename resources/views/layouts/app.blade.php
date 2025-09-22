@@ -11,7 +11,7 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-
+    {{-- Tailwind --}}
     <script src="https://cdn.tailwindcss.com"></script>
     {{-- Alert Notfy --}}
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
@@ -56,7 +56,7 @@
         }
     </script>
 
-    {{-- @vite(['resources/css/app.css', 'resources/js/app.js']) --}}
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
 <body class="bg-secondary-50 dark:bg-secondary-900 transition-colors duration-300">
@@ -342,19 +342,19 @@
             }).showToast();
         @endif
 
-        @if ($errors->any())
-            Toastify({
-                text: "{{ $errors->first() }}",
-                duration: 4000,
-                gravity: "top",
-                position: "right",
-                backgroundColor: "linear-gradient(to right, #ff5f6d, #ffc371)",
-                className: "rounded-lg shadow-md",
-                style: {
-                    margin: "0 auto", // biar benar-benar center
-                }
-            }).showToast();
-        @endif
+        // @if ($errors->any())
+        //     Toastify({
+        //         text: "{{ $errors->first() }}",
+        //         duration: 4000,
+        //         gravity: "top",
+        //         position: "right",
+        //         backgroundColor: "linear-gradient(to right, #ff5f6d, #ffc371)",
+        //         className: "rounded-lg shadow-md",
+        //         style: {
+        //             margin: "0 auto", // biar benar-benar center
+        //         }
+        //     }).showToast();
+        // @endif
     </script>
 </body>
 
