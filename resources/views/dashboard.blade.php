@@ -9,8 +9,8 @@
             class="bg-white dark:bg-secondary-800 rounded-2xl p-6 shadow-sm border border-secondary-100 dark:border-secondary-700">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="text-sm font-medium text-secondary-600 dark:text-secondary-400">Total Ruangan</p>
-                    <p class="text-3xl font-bold text-secondary-900 dark:text-white">25</p>
+                    <p class="text-sm font-medium text-secondary-600 dark:text-secondary-400">Kontak</p>
+                    <p class="text-3xl font-bold text-secondary-900 dark:text-white">0</p>
                 </div>
                 <div class="w-12 h-12 bg-primary-100 dark:bg-primary-900/20 rounded-xl flex items-center justify-center">
                     <svg class="w-6 h-6 text-primary-600 dark:text-primary-400" fill="none" stroke="currentColor"
@@ -21,18 +21,18 @@
                     </svg>
                 </div>
             </div>
-            <div class="mt-4 flex items-center">
+            {{-- <div class="mt-4 flex items-center">
                 <span class="text-sm text-green-600 dark:text-green-400 font-medium">+12%</span>
                 <span class="text-sm text-secondary-500 dark:text-secondary-400 ml-2">dari bulan lalu</span>
-            </div>
+            </div> --}}
         </div>
 
         <div
             class="bg-white dark:bg-secondary-800 rounded-2xl p-6 shadow-sm border border-secondary-100 dark:border-secondary-700">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="text-sm font-medium text-secondary-600 dark:text-secondary-400">Total Users</p>
-                    <p class="text-3xl font-bold text-secondary-900 dark:text-white">142</p>
+                    <p class="text-sm font-medium text-secondary-600 dark:text-secondary-400">Perangkat</p>
+                    <p class="text-3xl font-bold text-secondary-900 dark:text-white">0</p>
                 </div>
                 <div class="w-12 h-12 bg-green-100 dark:bg-green-900/20 rounded-xl flex items-center justify-center">
                     <svg class="w-6 h-6 text-green-600 dark:text-green-400" fill="none" stroke="currentColor"
@@ -43,18 +43,18 @@
                     </svg>
                 </div>
             </div>
-            <div class="mt-4 flex items-center">
+            {{-- <div class="mt-4 flex items-center">
                 <span class="text-sm text-green-600 dark:text-green-400 font-medium">+8%</span>
                 <span class="text-sm text-secondary-500 dark:text-secondary-400 ml-2">dari bulan lalu</span>
-            </div>
+            </div> --}}
         </div>
 
         <div
             class="bg-white dark:bg-secondary-800 rounded-2xl p-6 shadow-sm border border-secondary-100 dark:border-secondary-700">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="text-sm font-medium text-secondary-600 dark:text-secondary-400">Booking Aktif</p>
-                    <p class="text-3xl font-bold text-secondary-900 dark:text-white">18</p>
+                    <p class="text-sm font-medium text-secondary-600 dark:text-secondary-400">Pesan Terkirim</p>
+                    <p class="text-3xl font-bold text-secondary-900 dark:text-white">0</p>
                 </div>
                 <div class="w-12 h-12 bg-amber-100 dark:bg-amber-900/20 rounded-xl flex items-center justify-center">
                     <svg class="w-6 h-6 text-amber-600 dark:text-amber-400" fill="none" stroke="currentColor"
@@ -65,18 +65,18 @@
                     </svg>
                 </div>
             </div>
-            <div class="mt-4 flex items-center">
+            {{-- <div class="mt-4 flex items-center">
                 <span class="text-sm text-red-600 dark:text-red-400 font-medium">-5%</span>
                 <span class="text-sm text-secondary-500 dark:text-secondary-400 ml-2">dari bulan lalu</span>
-            </div>
+            </div> --}}
         </div>
 
         <div
             class="bg-white dark:bg-secondary-800 rounded-2xl p-6 shadow-sm border border-secondary-100 dark:border-secondary-700">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="text-sm font-medium text-secondary-600 dark:text-secondary-400">Revenue</p>
-                    <p class="text-3xl font-bold text-secondary-900 dark:text-white">Rp 2.4M</p>
+                    <p class="text-sm font-medium text-secondary-600 dark:text-secondary-400">Pesan Tertunda</p>
+                    <p class="text-3xl font-bold text-secondary-900 dark:text-white">0</p>
                 </div>
                 <div class="w-12 h-12 bg-purple-100 dark:bg-purple-900/20 rounded-xl flex items-center justify-center">
                     <svg class="w-6 h-6 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor"
@@ -87,10 +87,10 @@
                     </svg>
                 </div>
             </div>
-            <div class="mt-4 flex items-center">
+            {{-- <div class="mt-4 flex items-center">
                 <span class="text-sm text-green-600 dark:text-green-400 font-medium">+18%</span>
                 <span class="text-sm text-secondary-500 dark:text-secondary-400 ml-2">dari bulan lalu</span>
-            </div>
+            </div> --}}
         </div>
     </div>
 

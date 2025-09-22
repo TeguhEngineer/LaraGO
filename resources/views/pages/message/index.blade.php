@@ -3,38 +3,58 @@
         {{ __('Send Message') }}
     </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900 dark:text-gray-100">
-
-                    <form method="POST" action="{{ route('send.message') }}">
-                        @csrf
-
-                        {{-- WhatsApp Number --}}
-                        <div class="mb-4">
-                            <x-input-label for="phone" value="WhatsApp Number" />
-                            <x-text-input id="phone" name="phone" type="number" class="mt-1 block w-full"
-                                placeholder="Example: 6281234567890" value="{{ old('phone') }}" required />
-                            <x-input-error :messages="$errors->get('phone')" class="mt-2" />
+    <!-- Send Message Form -->
+    <div class="max-w-xl">
+        <div
+            class="bg-white dark:bg-secondary-800 rounded-2xl shadow-sm border border-secondary-200 dark:border-secondary-700">
+            <!-- Form Content -->
+            <form method="POST" class="p-4 " action="{{ route('send.message') }}">
+                @csrf
+                <div class="mb-2">
+                    <x-input-label for="phone" :value="__('Nomor Whatsapp')" required />
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <span class="text-gray-900 dark:text-white">+62</span>
                         </div>
+                        <x-text-input id="phone" name="phone" class="pl-12 pr-4" type="number" :value="old('phone')"
+                            placeholder="85909090900" required autofocus autocomplete="phone" />
+                    </div>
+                    <x-input-error :messages="$errors->get('phone')" class="mt-1" />
+                </div>
 
-                        {{-- Message --}}
-                        <div class="mb-4">
-                            <x-input-label for="message" value="Message" />
-                            <textarea id="message" name="message" rows="4"
-                                class="w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 rounded-md shadow-sm">{{ old('message') }}</textarea>
-                            <x-input-error :messages="$errors->get('message')" class="mt-2" />
-                        </div>
-
-                        {{-- Tombol --}}
-                        <div class="flex items-center">
-                            <x-primary-button>Send</x-primary-button>
-                        </div>
-                    </form>
+                <div class="mb-2">
+                    <div>
+                        <x-input-label for="kategori_id" :value="__('Kategori')" required />
+                        <x-select-input id="kategori_id" name="kategori_id" placeholder="-- Pilih Kategori --"
+                            selected="{{ old('kategori_id') }}">
+                            {{-- @foreach ($dataKategori as $item)
+                                <option value="{{ $item->id }}"
+                                    {{ old('kategori_id') == $item->id ? 'selected' : '' }}>
+                                    {{ $item->nama_kategori }}
+                            </option>
+                            @endforeach --}}
+                            <option value="1">Tesss</option>
+                        </x-select-input>
+                        <x-input-error :messages="$errors->get('kategori_id')" class="mt-1" />
+                    </div>
 
                 </div>
-            </div>
+
+                <!-- Message Field -->
+                <div class="mb-2">
+                    <x-input-label for="message" :value="__('Pesan')" required />
+                    <x-textarea id="message" name="message" rows="6" placeholder="Tulis pesan kamu disini..."
+                        required />
+                    <x-input-error :messages="$errors->get('message')" class="mt-1" />
+                </div>
+
+                <!-- Form Actions -->
+                <div
+                    class="flex items-center justify-end pt-6 border-t border-secondary-200 dark:border-secondary-700 space-x-3">
+                    <x-secondary-button>Batal</x-secondary-button>
+                    <x-primary-button>Kirim</x-primary-button>
+                </div>
+            </form>
         </div>
     </div>
 </x-app-layout>
