@@ -20,7 +20,7 @@ class SendReminders extends Command
      *
      * @var string
      */
-    protected $description = 'Kirim reminder WA untuk user yang sudah waktunya';
+    protected $description = 'Kirim reminder WA untuk kontak yang sudah waktunya';
 
     /**
      * Execute the console command.
@@ -33,9 +33,9 @@ class SendReminders extends Command
             ->get();
 
         foreach ($reminders as $reminder) {
-            $wa->sendMessage($reminder->user->phone, "📌 Reminder: {$reminder->title}\n{$reminder->description}");
+            $wa->sendMessage($reminder->contact->phone, "{$reminder->description}");
             $reminder->update(['status' => 'send']);
-            $this->info("Reminder terkirim ke {$reminder->user->phone}");
+            $this->info("Reminder terkirim ke {$reminder->contact->phone}");
         }
 
         return Command::SUCCESS;
