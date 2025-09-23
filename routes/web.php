@@ -28,6 +28,7 @@ Route::middleware(['auth', 'otp.verified'])->group(function () {
     Route::get('/send_message', [MessageController::class, 'index'])->name('message.index');
     Route::post('/send_message', [MessageController::class, 'send'])->name('send.message');
     Route::get('/reminders_message', [ReminderController::class, 'index'])->name('reminders.index');
+    Route::get('/reminders/data', [ReminderController::class, 'data'])->name('reminders.data');
     Route::post('/reminders_message', [ReminderController::class, 'store'])->name('reminders.store');
 
     Route::resource('/contacts', ContactController::class);
