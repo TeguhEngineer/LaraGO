@@ -2,38 +2,23 @@
 
 namespace App\Imports;
 
-use App\Models\Contact;
-use Maatwebsite\Excel\Concerns\ToModel;
+use Maatwebsite\Excel\Row;
+use Maatwebsite\Excel\Concerns\OnEachRow;
+use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
-class ContactsImport implements ToModel
+class ContactsImport implements OnEachRow, WithHeadingRow
 {
-    /**
-    * @param array $row
-    *
-    * @return \Illuminate\Database\Eloquent\Model|null
-    */
-    public function model(array $row)
-    {
-        // dd($row);
-        return new Contact([
-            'name'  => $row[0] ?? null,
-            'phone' => $row[1] ?? null,  // kolom header “phone”
-        ]);
-    }
-     public function uniqueBy()
-    {
-        return 'phone';  // misalnya berdasarkan nomor telepon
-    }
+    public $rows = [];
 
-    /**
-     * Validasi untuk baris - baris Excel
-     */
-    public function rules(): array
+    public function onRow(Row $row)
     {
-        return [
-            'name'  => 'required|string|max:255',
-            'phone' => 'required|string|max:50',  
-            // bisa tambahkan rule lain seperti unik, numeric, dll
+        $rowIndex = $row->getIndex();
+        $row      = $row->toArray();
+
+        $this->rows[] = [
+            'row'   => $rowIndex,
+            'name'  => $row['name'] ?? '',
+            'phone' => $row['phone'] ?? '',
         ];
     }
 }
