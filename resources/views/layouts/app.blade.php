@@ -13,6 +13,9 @@
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
     {{-- Tailwind --}}
     <script src="https://cdn.tailwindcss.com"></script>
+    {{-- Flat Icon --}}
+    <link rel='stylesheet'
+        href='https://cdn-uicons.flaticon.com/3.0.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
     {{-- Alert Notfy --}}
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <!-- Chart -->
@@ -56,10 +59,10 @@
         }
     </script>
 
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    {{-- @vite(['resources/css/app.css', 'resources/js/app.js']) --}}
 </head>
 
-<body class="bg-secondary-50 dark:bg-secondary-900 transition-colors duration-300">
+<body class="bg-secondary-50 dark:bg-secondary-900 transition-colors duration-100">
     <!-- Mobile Menu Overlay -->
     <div id="mobileMenuOverlay" class="fixed inset-0 z-40 bg-black bg-opacity-50 hidden lg:hidden"></div>
 
@@ -69,9 +72,9 @@
 
         @include('layouts.navigation')
 
-        <main class="flex-1 p-4 sm:p-6 lg:p-8">
+        <main class="flex-1 p-4 sm:p-6 lg:p-6">
             @isset($header)
-                <div class="mb-8 flex items-center gap-3">
+                <div class="mb-5 flex items-center gap-3">
                     {{-- <a href="{{ url()->previous() }}"
                         class="inline-flex items-center text-secondary-900 dark:text-white hover:text-secondary-700 dark:hover:text-gray-300 transition">
                         <!-- Icon panah kiri (Heroicons) -->
@@ -81,7 +84,7 @@
                         </svg>
                     </a> --}}
 
-                    <h1 class="text-3xl font-bold text-secondary-900 dark:text-white">
+                    <h1 class="text-2xl font-bold text-secondary-900 dark:text-white">
                         {{ $header }}
                     </h1>
                 </div>
