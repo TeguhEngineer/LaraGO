@@ -12,7 +12,7 @@ class ReminderController extends Controller
     public function index()
     {
         // $reminders = Reminder::where('user_id', Auth::id())->latest()->get();
-        $reminders = Reminder::latest()->get();
+        $reminders = Reminder::latest()->paginate(10);
         $users = User::all();
         return view('pages.reminders.index', compact('reminders', 'users'));
     }
@@ -24,6 +24,12 @@ class ReminderController extends Controller
             'title'       => 'required|string|max:255',
             'description' => 'nullable|string',
             'reminder_at'   => 'required|date|after:now',
+        ], [
+            '*.required' => 'Field harus diisi.',
+            'user_id.exists' => 'Pengguna tidak ditemukan.',
+            'reminder_at.after' => 'Tanggal harus lebih besar dari sekarang.',
+            'reminder_at.required' => 'Tanggal harus diisi.',
+            'reminder_at.max' => 'Tanggal tidak boleh lebih dari 255 karakter.',
         ]);
 
         Reminder::create($validated + ['status' => 'pending']);

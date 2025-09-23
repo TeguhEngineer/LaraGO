@@ -8,7 +8,7 @@
         <div
             class="bg-white dark:bg-secondary-800 rounded-2xl shadow-sm border border-secondary-200 dark:border-secondary-700">
             <!-- Form Content -->
-            <form method="POST" class="p-4 " action="{{ route('send.message') }}">
+            <form method="POST" class="p-4" action="{{ route('send.message') }}">
                 @csrf
                 <div class="mb-2">
                     <x-input-label for="phone" :value="__('Nomor Whatsapp')" required />
@@ -20,24 +20,6 @@
                             placeholder="85909090900" required autofocus autocomplete="phone" />
                     </div>
                     <x-input-error :messages="$errors->get('phone')" class="mt-1" />
-                </div>
-
-                <div class="mb-2">
-                    <div>
-                        <x-input-label for="kategori_id" :value="__('Kategori')" required />
-                        <x-select-input id="kategori_id" name="kategori_id" placeholder="-- Pilih Kategori --"
-                            selected="{{ old('kategori_id') }}">
-                            {{-- @foreach ($dataKategori as $item)
-                                <option value="{{ $item->id }}"
-                                    {{ old('kategori_id') == $item->id ? 'selected' : '' }}>
-                                    {{ $item->nama_kategori }}
-                            </option>
-                            @endforeach --}}
-                            <option value="1">Tesss</option>
-                        </x-select-input>
-                        <x-input-error :messages="$errors->get('kategori_id')" class="mt-1" />
-                    </div>
-
                 </div>
 
                 <!-- Message Field -->
