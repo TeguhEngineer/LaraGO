@@ -39,46 +39,46 @@ class RegisteredUserController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
-        $result = $wa->sendMessage(
-            $request->phone,
-            "Halo {$request->name}, selamat datang di website kami!"
-        );
+        // $result = $wa->sendMessage(
+        //     $request->phone,
+        //     "Halo {$request->name}, selamat datang di website kami!"
+        // );
 
-        $customMessages = [
-            'you are not connect to services server, please reconnect' => '❌ WA Gateway belum online, hubungkan device terlebih dahulu.',
-            'Invalid number' => '⚠️ Nomor WhatsApp salah atau tidak terdaftar.',
-        ];
+        // $customMessages = [
+        //     'you are not connect to services server, please reconnect' => '❌ WA Gateway belum online, hubungkan device terlebih dahulu.',
+        //     'Invalid number' => '⚠️ Nomor WhatsApp salah atau tidak terdaftar.',
+        // ];
 
-        if (!$result['status']) {
-            $errorMessage = $customMessages[$result['message']] ?? 'Terjadi kesalahan tidak diketahui.';
-            return back()->withErrors(['wa' => $errorMessage]);
-        }
+        // if (!$result['status']) {
+        //     $errorMessage = $customMessages[$result['message']] ?? 'Terjadi kesalahan tidak diketahui.';
+        //     return back()->withErrors(['wa' => $errorMessage]);
+        // }
 
-        $otp = rand(100000, 999999);
+        // $otp = rand(100000, 999999);
 
         $user = User::create([
             'name'           => $request->name,
             'email'          => $request->email,
             'phone'          => $request->phone,
             'password'       => Hash::make($request->password),
-            'otp_code'       => $otp,
-            'otp_expires_at' => now()->addMinutes(5),
-            'otp_verified_at' => null,
+            // 'otp_code'       => $otp,
+            // 'otp_expires_at' => now()->addMinutes(5),
+            // 'otp_verified_at' => null,
         ]);
 
-        session(['pending_user_id' => $user->id]);
+        // session(['pending_user_id' => $user->id]);
 
-        // event(new Registered($user));
+        event(new Registered($user));
 
-        $wa->sendMessage(
-            $user->phone,
-            "Halo {$user->name}, kode OTP kamu adalah: *{$otp}*.\n\nKode berlaku 5 menit."
-        );
+        // $wa->sendMessage(
+        //     $user->phone,
+        //     "Halo {$user->name}, kode OTP kamu adalah: *{$otp}*.\n\nKode berlaku 5 menit."
+        // );
 
-        return redirect()->route('verify.otp')->with('success', 'Akun berhasil dibuat! Silakan cek WhatsApp untuk kode OTP.');
+        // return redirect()->route('verify.otp')->with('success', 'Akun berhasil dibuat! Silakan cek WhatsApp untuk kode OTP.');
 
-        // Auth::login($user);
+        Auth::login($user);
 
-        // return redirect(route('dashboard', absolute: false));
+        return redirect(route('dashboard', absolute: false));
     }
 }

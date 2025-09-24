@@ -64,7 +64,7 @@
                 <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400" id="reminders-table">
                     <thead class="text-sm text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr>
-                            <th scope="col" class="px-6 py-3 text-center">No</th>
+                            <th scope="col" class="px-6 py-3 text-center font-bold">No</th>
                             <th scope="col" class="px-6 py-3 text-center">Nama</th>
                             <th scope="col" class="px-6 py-3 text-center">Judul</th>
                             <th scope="col" class="px-6 py-3 text-center">Deskripsi</th>

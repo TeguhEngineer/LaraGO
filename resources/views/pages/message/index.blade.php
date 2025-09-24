@@ -31,9 +31,9 @@
                     <x-input-error :messages="$errors->get('image')" class="mt-1" />
 
                     <!-- Preview -->
-                    <div class="mt-3 border flex justify-center">
+                    <div class="mt-3 flex justify-center">
                         <img id="imagePreview" src="#" alt="Preview Gambar"
-                            class="hidden w-48 rounded-lg border border-gray-300 shadow" />
+                            class="hidden w-48 rounded border border-gray-300 shadow" />
                     </div>
                 </div>
 
