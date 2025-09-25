@@ -38,6 +38,16 @@
                 Dasbor
             </a>
 
+            <a href="{{ route('devices.index') }}"
+                class="flex items-center px-4 py-3 text-sm font-medium {{ request()->routeIs('devices.index') ? 'text-white bg-gradient-to-r from-primary-500 to-primary-600 shadow-xl' : 'text-secondary-600 dark:text-secondary-300 hover:bg-secondary-100 dark:hover:bg-secondary-700 transition-colors' }} rounded">
+                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z">
+                    </path>
+                </svg>
+                Perangkat
+            </a>
+
             <a href="{{ route('contacts.index') }}"
                 class="flex items-center px-4 py-3 text-sm font-medium {{ request()->routeIs('contacts.index') ? 'text-white bg-gradient-to-r from-primary-500 to-primary-600 shadow-xl' : 'text-secondary-600 dark:text-secondary-300 hover:bg-secondary-100 dark:hover:bg-secondary-700 transition-colors' }} rounded">
                 <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -67,6 +77,46 @@
                 </svg>
                 Jadwal Pesan
             </a>
+
+            {{-- Dropdown Manajemen --}}
+            <div x-data="{ open: {{ request()->routeIs('dashboard') || request()->routeIs('dashboard') ? 'true' : 'false' }} }">
+                <button type="button" @click="open = !open"
+                    class="w-full flex items-center justify-between px-4 py-3 text-sm font-medium rounded transition-colors
+        {{ request()->routeIs('dashboard') || request()->routeIs('dashboard')
+            ? 'text-white bg-gradient-to-r from-primary-500 to-primary-600 shadow-xl'
+            : 'text-secondary-600 dark:text-secondary-300 hover:bg-secondary-100 dark:hover:bg-secondary-700' }}">
+                    <span class="flex items-center">
+                        <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M16 12H8m0 0l4-4m-4 4l4 4"></path>
+                        </svg>
+                        Manajemen
+                    </span>
+                    <svg class="w-4 h-4 transform transition-transform" :class="{ 'rotate-90': open }" fill="none"
+                        stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                    </svg>
+                </button>
+
+                {{-- Submenu --}}
+                <div x-show="open" x-transition class="ml-8 mt-2 space-y-1">
+                    <a href="{{ route('dashboard') }}"
+                        class="block px-4 py-2 text-sm rounded
+            {{ request()->routeIs('dashboard')
+                ? 'text-white bg-primary-500'
+                : 'text-secondary-600 dark:text-secondary-300 hover:bg-secondary-100 dark:hover:bg-secondary-700' }}">
+                        Users
+                    </a>
+                    <a href="{{ route('message.index') }}"
+                        class="block px-4 py-2 text-sm rounded
+            {{ request()->routeIs('dashboard')
+                ? 'text-white bg-primary-500'
+                : 'text-secondary-600 dark:text-secondary-300 hover:bg-secondary-100 dark:hover:bg-secondary-700' }}">
+                        Roles
+                    </a>
+                </div>
+            </div>
+
         </nav>
 
         <!-- User Profile -->
@@ -77,9 +127,11 @@
                     <span class="text-sm font-medium text-white">AD</span>
                 </div>
                 <div class="flex-1 min-w-0">
-                    <p class="text-sm font-medium text-secondary-900 dark:text-white truncate">{{ Auth::user()->name }}
+                    <p class="text-sm font-medium text-secondary-900 dark:text-white truncate">
+                        {{ Auth::user()->name }}
                     </p>
-                    <p class="text-xs text-secondary-500 dark:text-secondary-400 truncate">{{ Auth::user()->email }}</p>
+                    <p class="text-xs text-secondary-500 dark:text-secondary-400 truncate">{{ Auth::user()->email }}
+                    </p>
                 </div>
             </div>
         </div>
