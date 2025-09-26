@@ -4,6 +4,7 @@ namespace App\Services;
 
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class WhatsAppService
 {
@@ -34,6 +35,12 @@ class WhatsAppService
                 'message' => $request->json('message') ?? 'Gagal mengirim pesan',
             ];
         } catch (\Throwable $th) {
+            Log::error('SendMessage Exception', [
+                'phone' => $phone,
+                'message' => $message,
+                'error' => $th->getMessage(),
+            ]);
+
             return [
                 'status'  => false,
                 'message' => $th->getMessage(),
@@ -46,7 +53,7 @@ class WhatsAppService
         try {
             $request = Http::post("{$this->baseUrl}/send/image", [
                 'phone'   => $phone,
-                'image_url'     => $imageUrl,   // 👈 kirim URL, bukan binary file
+                'image_url'  => $imageUrl,   // 👈 kirim URL, bukan binary file
                 'caption' => $caption,
             ]);
 
@@ -62,6 +69,13 @@ class WhatsAppService
                 'message' => $request->json('message') ?? 'Gagal mengirim gambar',
             ];
         } catch (\Throwable $th) {
+            Log::error('SendImage Exception', [
+                'phone' => $phone,
+                'image_url' => $imageUrl,
+                'caption' => $caption,
+                'error' => $th->getMessage(),
+            ]);
+
             return [
                 'status'  => false,
                 'message' => $th->getMessage(),

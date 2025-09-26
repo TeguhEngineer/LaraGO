@@ -1,23 +1,26 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use App\Services\WhatsAppService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
-class MessageController extends Controller
+class SendMultiTypeMessageController extends Controller
 {
-    public function index()
+    protected $wa;
+
+    public function __construct(WhatsAppService $wa)
     {
-        return view('pages.message.index');
+        $this->wa = $wa;
     }
 
-    public function send(Request $request, WhatsAppService $wa)
+    public function send(Request $request)
     {
         $validated = $request->validate([
-            'phone' => 'required|digits_between:9,15',
-            'message' => 'required|string|max:500',
+            'phone'      => 'required|digits_between:9,15',
+            'message' => 'required|string',
             'image'   => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120', // max 5MB
         ], [
             '*.required' => 'Kolom inputan ini harus diisi.',
@@ -28,24 +31,33 @@ class MessageController extends Controller
             'image.image'   => 'File yang diunggah bukan gambar.',
         ]);
 
-        $skip = ltrim($request->phone, '0'); // buang 0 di depan kalau ada
+        $skip = ltrim($validated['phone'], '0'); // buang 0 di depan kalau ada
         $phone = '62' . $skip;
 
         try {
+
             if ($request->hasFile('image')) {
                 // ✅ Kirim gambar dengan caption
                 $path = $request->file('image')->store('uploads', 'public');
                 $imageUrl = asset(str_replace('public', 'storage', $path)); // buat URL public
 
-                $wa->sendImage($phone, $imageUrl, $validated['message'] ?? '');
+                $result = $this->wa->sendImage($phone, $imageUrl, $validated['message'] ?? '');
             } else {
                 // ✅ Kirim pesan teks biasa
-                $wa->sendMessage($phone, $validated['message']);
+                $result = $this->wa->sendMessage($phone, $validated['message']);
             }
 
-            return back()->with('success', '✅ Pesan berhasil dikirim ke ' . $phone);
+            return response()->json([
+                'success' => true,
+                'message' => 'Pesan berhasil dikirim',
+                'data'    => $result
+            ], 200);
         } catch (\Throwable $th) {
-            return back()->with('error', '❌ ' . $th->getMessage());
+            return response()->json([
+                'success' => false,
+                'error'   => $th->getMessage()
+            ], 500);
+            Log::error("Error saat mengirim pesan (API): " . $th->getMessage());
         }
     }
 }

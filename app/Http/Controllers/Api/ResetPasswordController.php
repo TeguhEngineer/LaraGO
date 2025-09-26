@@ -17,7 +17,6 @@ class ResetPasswordController extends Controller
 
     public function send(Request $request)
     {
-        dd("ini api reset password");
         $validated = $request->validate([
             'phone'      => 'required|string',
             'message' => 'required|string',
