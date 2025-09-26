@@ -3,10 +3,6 @@
         {{ __('Jadwal Pesan') }}
     </x-slot>
 
-    @push('styles')
-        <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.tailwindcss.css" />
-    @endpush
-
     <div class="w-full flex flex-col lg:flex-row gap-6">
         {{-- Form Input (atas di mobile, kanan di desktop) --}}
         <div class="w-full lg:w-96 shrink-0 order-1 lg:order-2">
@@ -57,27 +53,30 @@
             </div>
         </div>
 
-        {{-- List Reminder (bawah di mobile, kiri di desktop) --}}
+        {{-- List Reminder --}}
         <div class="flex-1 order-2 lg:order-1">
             <div
-                class="bg-white dark:bg-gray-800 p-6 rounded-lg border border-secondary-200 shadow-md dark:border-secondary-700 overflow-x-auto">
-                <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400" id="reminders-table">
-                    <thead class="text-sm text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                        <tr>
-                            <th scope="col" class="px-6 py-3 text-center font-bold">No</th>
-                            <th scope="col" class="px-6 py-3 text-center">Nama</th>
-                            <th scope="col" class="px-6 py-3 text-center">Judul</th>
-                            <th scope="col" class="px-6 py-3 text-center">Deskripsi</th>
-                            <th scope="col" class="px-6 py-3 text-center">Waktu</th>
-                            <th scope="col" class="px-6 py-3 text-center">Status</th>
-                            <th scope="col" class="px-6 py-3 text-center">Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
+                class="bg-white dark:bg-gray-800 p-6 rounded-2xl border border-secondary-200 shadow-md dark:border-secondary-700">
+                <div class="overflow-x-auto">
+                    <table id="reminders-table"
+                        class="w-full text-sm text-left text-gray-700 dark:text-gray-300 border-collapse">
+                        <thead class="text-sm uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-300">
+                            <tr>
+                                <th class="px-6 py-3 text-center font-bold">No</th>
+                                <th class="px-6 py-3 text-center">Nama</th>
+                                <th class="px-6 py-3 text-center">Judul</th>
+                                <th class="px-6 py-3 text-center">Deskripsi</th>
+                                <th class="px-6 py-3 text-center">Waktu</th>
+                                <th class="px-6 py-3 text-center">Status</th>
+                                <th class="px-6 py-3 text-center">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
             </div>
         </div>
+
 
     </div>
 
@@ -85,43 +84,80 @@
         <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
         <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
         <script src="https://cdn.datatables.net/2.0.8/js/dataTables.tailwindcss.js"></script>
+
         <script>
             $(document).ready(function() {
-                $('#reminders-table').DataTable({
+                let table = $('#reminders-table').DataTable({
                     processing: true,
                     serverSide: true,
                     ajax: '{{ route('reminders.data') }}',
                     columns: [{
                             data: 'id',
-                            name: 'id'
+                            name: 'id',
+                            className: "text-center"
                         },
                         {
                             data: 'contact.name',
-                            name: 'contact.name'
+                            name: 'contact.name',
+                            className: "text-center"
                         },
                         {
                             data: 'title',
-                            name: 'title'
+                            name: 'title',
+                            className: "text-center"
                         },
                         {
                             data: 'description',
-                            name: 'description'
+                            name: 'description',
+                            className: "whitespace-normal text-center",
+                            width: '30%'
                         },
                         {
                             data: 'reminder_at',
-                            name: 'reminder_at'
+                            name: 'reminder_at',
+                            className: "text-center"
                         },
                         {
                             data: 'status',
-                            name: 'status'
+                            name: 'status',
+                            className: "text-center"
                         },
                         {
                             data: 'action',
                             name: 'action',
                             orderable: false,
-                            searchable: false
+                            searchable: false,
+                            className: "text-center"
                         }
-                    ]
+                    ],
+                    responsive: true,
+                    pageLength: 10,
+                    language: {
+                        search: "_INPUT_",
+                        searchPlaceholder: "Cari data...",
+                        lengthMenu: "_MENU_ entries per halaman",
+                        paginate: {
+                            previous: "‹",
+                            next: "›"
+                        }
+                    },
+                    initComplete: function() {
+                        // Search input
+                        $('.dataTables_filter input')
+                            .addClass(
+                                'px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 focus:ring-2 focus:ring-blue-500'
+                            );
+
+                        // Length select
+                        $('.dataTables_length select')
+                            .addClass(
+                                'px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 focus:ring-2 focus:ring-blue-500'
+                            );
+
+                        // Pagination
+                        $('.dataTables_paginate')
+                            .addClass('flex items-center space-x-2 mt-4');
+                    }
                 });
             });
         </script>

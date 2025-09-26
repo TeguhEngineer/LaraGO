@@ -13,13 +13,8 @@
                 {{-- Phone Field --}}
                 <div class="mb-2">
                     <x-input-label for="phone" :value="__('Nomor Whatsapp')" required />
-                    <div class="relative">
-                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <span class="text-gray-900 dark:text-white">+62</span>
-                        </div>
-                        <x-text-input id="phone" name="phone" class="pl-12 pr-4" type="number" :value="old('phone')"
-                            placeholder="85909090900" required autofocus autocomplete="phone" />
-                    </div>
+                    <x-text-input id="phone" name="phone" type="number" :value="old('phone')"
+                        placeholder="contoh : 085909090900" required autofocus autocomplete="phone" />
                     <x-input-error :messages="$errors->get('phone')" class="mt-1" />
                 </div>
 

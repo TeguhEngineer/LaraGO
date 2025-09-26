@@ -79,10 +79,13 @@
             </a>
 
             {{-- Dropdown Manajemen --}}
-            <div x-data="{ open: {{ request()->routeIs('dashboard') || request()->routeIs('dashboard') ? 'true' : 'false' }} }">
+            @php
+                $isManajemenActive = request()->routeIs('dashboard');
+            @endphp
+            <div x-data="{ open: {{ $isManajemenActive ? 'true' : 'false' }} }">
                 <button type="button" @click="open = !open"
                     class="w-full flex items-center justify-between px-4 py-3 text-sm font-medium rounded transition-colors
-        {{ request()->routeIs('dashboard') || request()->routeIs('dashboard')
+        {{ $isManajemenActive
             ? 'text-white bg-gradient-to-r from-primary-500 to-primary-600 shadow-xl'
             : 'text-secondary-600 dark:text-secondary-300 hover:bg-secondary-100 dark:hover:bg-secondary-700' }}">
                     <span class="flex items-center">
@@ -92,27 +95,21 @@
                         </svg>
                         Manajemen
                     </span>
-                    <svg class="w-4 h-4 transform transition-transform" :class="{ 'rotate-90': open }" fill="none"
-                        stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-4 h-4 transform transition-transform {{ $isManajemenActive ? 'rotate-90' : '' }}"
+                        :class="{ 'rotate-90': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                     </svg>
                 </button>
 
                 {{-- Submenu --}}
-                <div x-show="open" x-transition class="ml-8 mt-2 space-y-1">
+                <div x-show="open" x-transition.opacity.duration.300ms class="ml-8 mt-2 space-y-1"
+                    @if (!$isManajemenActive) style="display: none;" @endif>
                     <a href="{{ route('dashboard') }}"
                         class="block px-4 py-2 text-sm rounded
             {{ request()->routeIs('dashboard')
-                ? 'text-white bg-primary-500'
+                ? 'text-white bg-gradient-to-r from-primary-500 to-primary-600 shadow-xl'
                 : 'text-secondary-600 dark:text-secondary-300 hover:bg-secondary-100 dark:hover:bg-secondary-700' }}">
                         Users
-                    </a>
-                    <a href="{{ route('message.index') }}"
-                        class="block px-4 py-2 text-sm rounded
-            {{ request()->routeIs('dashboard')
-                ? 'text-white bg-primary-500'
-                : 'text-secondary-600 dark:text-secondary-300 hover:bg-secondary-100 dark:hover:bg-secondary-700' }}">
-                        Roles
                     </a>
                 </div>
             </div>

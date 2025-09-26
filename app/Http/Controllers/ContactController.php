@@ -17,8 +17,12 @@ class ContactController extends Controller
     {
         $data = $request->validate([
             'name' => 'required|string|max:255',
-            'phone' => 'required|digits_between:8,15|unique:contacts,phone',
+            'phone' => 'required|digits_between:10,15|unique:contacts,phone',
         ]);
+
+        $skip = ltrim($request->phone, '0'); // buang 0 di depan kalau ada
+        $phone = '62' . $skip;
+        $data['phone'] = $phone;
 
         Contact::create($data);
 
