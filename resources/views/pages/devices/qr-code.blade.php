@@ -9,17 +9,22 @@
     </div>
 
     @if (isset($qrData) && $qrData['code'] === 'SUCCESS')
-        <div
-            class="mb-6 inline-block p-4 bg-white dark:bg-secondary-700 rounded-lg border border-secondary-300 dark:border-secondary-600">
+        <div id="qr-container"
+            class="mb-6 inline-block p-4 bg-white dark:bg-secondary-700 rounded-lg border border-secondary-300 dark:border-secondary-600 transition-all duration-300">
             <img src="{{ $qrData['results']['qr_link'] }}" alt="WhatsApp QR Code" id="qr-image"
-                class="mx-auto transition-opacity duration-300" style="width: 256px; height: 256px;">
+                class="mx-auto transition-all duration-300 rounded-lg" style="width: 256px; height: 256px;">
         </div>
 
-        <div class="mb-6">
-            <p id="qr-countdown" class="text-sm text-secondary-500 dark:text-secondary-400">
-                QR Code akan expired dalam {{ $qrData['results']['qr_duration'] }} detik
+        <div class="mb-6 space-y-2">
+            <p id="qr-countdown" class="text-sm text-secondary-500 dark:text-secondary-400 font-medium">
+                <span class="inline-flex items-center gap-2">
+                    <svg class="w-4 h-4 text-orange-500 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    QR Code akan expired dalam <span class="font-bold text-orange-600">{{ $qrData['results']['qr_duration'] }}</span> detik
+                </span>
             </p>
-            <p id="qr-status" class="text-sm text-blue-500 dark:text-blue-400 mt-1"></p>
+            <p id="qr-status" class="text-sm text-blue-500 dark:text-blue-400 mt-1 min-h-[1rem]"></p>
         </div>
 
         <div class="flex justify-center gap-4 mb-6">

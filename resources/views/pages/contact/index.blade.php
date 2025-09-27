@@ -7,23 +7,26 @@
 
         {{-- FORM ADD --}}
         <div class="w-full lg:w-96 shrink-0 order-1 lg:order-2">
-            <div class="bg-white dark:bg-gray-800 rounded-2xl border border-secondary-200 shadow-md dark:border-secondary-700">
+            <div
+                class="bg-white dark:bg-gray-800 rounded-2xl border border-secondary-200 shadow-md dark:border-secondary-700">
                 <div class="p-6">
                     <h2 class="text-lg font-semibold mb-5 text-gray-900 dark:text-gray-100">Tambah Kontak Baru</h2>
                     <form action="{{ route('contacts.store') }}" method="post" class="space-y-4">
                         @csrf
                         <div>
                             <x-input-label for="name" value="Name" required />
-                            <x-text-input id="name" name="name" type="text" class="w-full" placeholder="Masukan Nama..." required />
+                            <x-text-input id="name" name="name" type="text" class="w-full"
+                                placeholder="Masukan Nama..." required />
                             <x-input-error :messages="$errors->get('name')" class="mt-1" />
                         </div>
                         <div>
                             <x-input-label for="phone" value="Phone" required />
-                            <x-text-input id="phone" name="phone" type="number" class="w-full" placeholder="Masukan Nomor Telepon..." required />
+                            <x-text-input id="phone" name="phone" type="number" class="w-full"
+                                placeholder="Masukan Nomor Telepon..." required />
                             <x-input-error :messages="$errors->get('phone')" class="mt-1" />
                         </div>
                         <div class="flex">
-                           <x-primary-button type="submit" class="ms-auto px-6">SIMPAN</x-primary-button>
+                            <x-primary-button type="submit" class="ms-auto px-6">SIMPAN</x-primary-button>
                         </div>
                     </form>
                 </div>
@@ -32,7 +35,8 @@
 
         {{-- TABLE CONTACT --}}
         <div class="flex-1 order-2 lg:order-1">
-            <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl border border-secondary-200 shadow-md dark:border-secondary-700 overflow-x-auto">
+            <div
+                class="bg-white dark:bg-gray-800 p-6 rounded-2xl border border-secondary-200 shadow-md dark:border-secondary-700 overflow-x-auto">
                 <div class="flex justify-between items-center mb-3">
                     <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Daftar Kontak</h2>
                     <button onclick="openImportModal()"
@@ -41,10 +45,9 @@
                     </button>
                 </div>
 
-                <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+                <div class="relative overflow-x-auto sm:rounded-lg">
                     <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                        <thead
-                            class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                             <tr class="text-center">
                                 <th scope="col" class="py-3">NO</th>
                                 <th scope="col" class="py-3">NAME</th>
@@ -57,8 +60,7 @@
                                 <tr
                                     class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 
                                            hover:bg-gray-50 dark:hover:bg-gray-600 text-center">
-                                    <th
-                                        class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    <th class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ $contacts->perPage() * ($contacts->currentPage() - 1) + $key + 1 }}
                                     </th>
                                     <td class="text-left px-3 py-4 w-full">{{ $c->name }}</td>
@@ -70,7 +72,8 @@
                                             class="px-3 py-1 text-xs text-white rounded-md bg-amber-500 hover:bg-amber-600">
                                             Edit
                                         </button>
-                                        <form action="{{ route('contacts.destroy', $c->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus kontak: {{ $c->name }} ?');">
+                                        <form action="{{ route('contacts.destroy', $c->id) }}" method="POST"
+                                            onsubmit="return confirm('Yakin ingin menghapus kontak: {{ $c->name }} ?');">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit"
@@ -161,33 +164,35 @@
         </div>
     </div>
 
-    <script>
-        function editContactModal(button) {
-            let id = button.getAttribute("data-id");
-            let name = button.getAttribute("data-nama");
-            let phone = button.getAttribute("data-phone");
+    @push('scripts')
+        <script>
+            function editContactModal(button) {
+                let id = button.getAttribute("data-id");
+                let name = button.getAttribute("data-nama");
+                let phone = button.getAttribute("data-phone");
 
-            document.getElementById("updateName").value = name;
-            document.getElementById("updatePhone").value = phone;
+                document.getElementById("updateName").value = name;
+                document.getElementById("updatePhone").value = phone;
 
-            let form = document.getElementById("updateContactForm");
-            form.action = "/contacts/" + id;
+                let form = document.getElementById("updateContactForm");
+                form.action = "/contacts/" + id;
 
-            document.getElementById("contactModal").classList.remove("hidden");
-        }
+                document.getElementById("contactModal").classList.remove("hidden");
+            }
 
-        function closeContactModal() {
-            document.getElementById("contactModal").classList.add("hidden");
-        }
+            function closeContactModal() {
+                document.getElementById("contactModal").classList.add("hidden");
+            }
 
-        function openImportModal() {
-            document.getElementById('importModal').classList.remove('hidden');
-            document.getElementById('importModal').classList.add('flex');
-        }
+            function openImportModal() {
+                document.getElementById('importModal').classList.remove('hidden');
+                document.getElementById('importModal').classList.add('flex');
+            }
 
-        function closeImportModal() {
-            document.getElementById('importModal').classList.add('hidden');
-            document.getElementById('importModal').classList.remove('flex');
-        }
-    </script>
+            function closeImportModal() {
+                document.getElementById('importModal').classList.add('hidden');
+                document.getElementById('importModal').classList.remove('flex');
+            }
+        </script>
+    @endpush
 </x-app-layout>

@@ -27,7 +27,7 @@
         href='https://cdn-uicons.flaticon.com/3.0.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
     {{-- Alert Notfy --}}
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-
+    {{-- Vite --}}
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
@@ -41,18 +41,9 @@
 
         @include('layouts.navigation')
 
-        <main class="flex-1 p-4 sm:p-6 lg:p-6">
+        <main class="flex-1 p-4 ">
             @isset($header)
                 <div class="mb-5 flex items-center gap-3">
-                    {{-- <a href="{{ url()->previous() }}"
-                        class="inline-flex items-center text-secondary-900 dark:text-white hover:text-secondary-700 dark:hover:text-gray-300 transition">
-                        <!-- Icon panah kiri (Heroicons) -->
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                            stroke="currentColor" class="w-6 h-6">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
-                        </svg>
-                    </a> --}}
-
                     <h1 class="text-2xl font-bold text-secondary-900 dark:text-white">
                         {{ $header }}
                     </h1>
@@ -63,9 +54,12 @@
         </main>
     </div>
 
+    {{-- DataTable --}}
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
+    <script src="https://cdn.datatables.net/2.0.8/js/dataTables.tailwindcss.js"></script>
     {{-- Alert Notfy --}}
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-
     <script>
         @if (session('error'))
             Toastify({

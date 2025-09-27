@@ -39,7 +39,25 @@
                         </div>
                         <div>
                             <h3 class="font-semibold text-lg text-secondary-900 dark:text-white">
-                                {{ $device['name'] ?: 'Unknown Name' }}
+                                @php
+                                    // Debug: tampilkan struktur device untuk debugging
+                                    $deviceName = 'Unknown Name';
+
+                                    if (isset($device['name']) && !empty($device['name'])) {
+                                        $deviceName = $device['name'];
+                                    } elseif (isset($device['device']) && !empty($device['device'])) {
+                                        // Extract nama dari device string jika ada
+                                        $deviceParts = explode('@', $device['device']);
+                                        if (count($deviceParts) > 0) {
+                                            $phonePart = $deviceParts[0];
+                                            $phoneNumber = explode(':', $phonePart)[0] ?? '';
+                                            if (!empty($phoneNumber)) {
+                                                $deviceName = 'WhatsApp +' . $phoneNumber;
+                                            }
+                                        }
+                                    }
+                                @endphp
+                                {{ $deviceName }}
                             </h3>
                             <p class="text-secondary-600 dark:text-secondary-400 text-sm">
                                 Terhubung
@@ -55,19 +73,26 @@
                 <div class="grid md:grid-cols-2 gap-4 text-sm">
                     <div>
                         <span class="font-medium text-secondary-700 dark:text-secondary-300">Nama:</span>
-                        <span
-                            class="text-secondary-900 dark:text-white ml-2">{{ $device['name'] ?: 'Tidak tersedia' }}</span>
+                        <span class="text-secondary-900 dark:text-white ml-2">{{ $deviceName }}</span>
                     </div>
                     <div>
                         <span class="font-medium text-secondary-700 dark:text-secondary-300">Device ID:</span>
                         <span
-                            class="text-secondary-900 dark:text-white ml-2 font-mono text-xs">{{ $device['device'] }}</span>
+                            class="text-secondary-900 dark:text-white ml-2 font-mono text-xs">{{ $device['device'] ?? 'N/A' }}</span>
                     </div>
                 </div>
 
+                {{-- Debug info (hanya tampil di development) --}}
+                @if (app()->environment(['local', 'development']))
+                    <div class="mt-4 p-3 bg-gray-100 dark:bg-gray-400 rounded text-xs">
+                        <strong>Debug Info:</strong><br>
+                        Raw Device Data: <code>{{ json_encode($device) }}</code>
+                    </div>
+                @endif
+
                 {{-- Extract info dari device string --}}
                 @php
-                    $deviceInfo = parseDeviceInfo($device['device']);
+                    $deviceInfo = isset($device['device']) ? parseDeviceInfo($device['device']) : null;
                 @endphp
 
                 @if ($deviceInfo)

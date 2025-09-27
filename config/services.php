@@ -36,6 +36,9 @@ return [
     ],
     'gowa' => [
         'url'      => env('GOWA_URL'),
+        'username' => env('GOWA_USERNAME'),
+        'password' => env('GOWA_PASSWORD'),
+        'timeout'  => env('GOWA_TIMEOUT', 30),
     ],
 
 

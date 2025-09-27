@@ -1,5 +1,4 @@
-<header
-    class="bg-white dark:bg-secondary-800 shadow-sm border-b border-secondary-200 dark:border-secondary-700 sticky top-0 z-30">
+<header class="bg-white dark:bg-secondary-900 border-b border-secondary-200 dark:border-secondary-700 sticky top-0 z-30">
     <div class="flex items-center justify-between h-16 px-4 sm:px-6">
         <div class="flex items-center">
             <button id="openSidebar" class="lg:hidden p-2 rounded-lg hover:bg-secondary-100 dark:hover:bg-secondary-700">

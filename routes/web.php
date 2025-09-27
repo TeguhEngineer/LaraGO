@@ -17,20 +17,21 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     // dd(session()->all());
     return view('dashboard');
-})->middleware(['auth', 'verified', 'otp.verified'])->name('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware('otp.redirect')->group(function () {
-    Route::get('/verify-otp', [OtpController::class, 'index'])->name('verify.otp');
-    Route::post('/verify-otp', [OtpController::class, 'store'])->name('store.verify-otp');
-    Route::post('/resend-otp', [OtpController::class, 'resendOtp'])->name('resend.otp');
-});
-
-Route::middleware(['auth', 'otp.verified'])->group(function () {
+Route::middleware(['auth'])->group(function () {
 
     Route::get('/devices', [DevicesController::class, 'devices'])->name('devices.index');
     Route::get('/check-status', [DevicesController::class, 'checkLoginStatus'])->name('devices.status');
-    Route::post('/refresh-qr', [DevicesController::class, 'refreshQR'])->name('devices.refresh-qr');
+    Route::get('/whatsapp-status-stream', [DevicesController::class, 'statusStream'])->name('devices.status-stream');
+    
+    // Debug route - hanya tersedia di development
+    if (app()->environment(['local', 'development'])) {
+        Route::get('/debug-devices', [DevicesController::class, 'debugDevices'])->name('devices.debug');
+    }
+    Route::post('/generate-qr', [DevicesController::class, 'generateQR'])->name('devices.generate-qr');
     Route::post('/devices/logout', [DevicesController::class, 'logout'])->name('devices.logout');
+    Route::post('/devices/reconnect', [DevicesController::class, 'reconnect'])->name('devices.reconnect');
 
     Route::post('/contacts/import/upload', [ContactImportController::class, 'upload'])->name('contacts.import.upload');
     Route::get('/contacts/import/preview', [ContactImportController::class, 'preview'])->name('pages.contact.preview');
