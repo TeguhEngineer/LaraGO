@@ -21,20 +21,64 @@ class ReminderController extends Controller
 
     public function data()
     {
-        $reminders = Reminder::with('contact')->select('reminders.*');
-        return DataTables::of($reminders)
-            ->addColumn('action', function ($reminder) {
-                return '
-        <button type="button" class="inline-flex items-center px-4 py-3 text-sm font-semibold text-white bg-gradient-to-r from-yellow-400 dark:from-yellow-500 to-yellow-500 dark:to-yellow-600 rounded hover:from-yellow-500 dark:hover:from-yellow-400 hover:to-yellow-600 dark:hover:to-yellow-500 transition-all duration-200">
-            Edit
-        </button>
-        <button type="button" class="inline-flex items-center px-4 py-3 text-sm font-semibold text-white bg-gradient-to-r from-red-400 dark:from-red-500 to-red-500 dark:to-red-600 rounded hover:from-red-500 dark:hover:from-red-400 hover:to-red-600 dark:hover:to-red-500 transition-all duration-200">
-            Delete
-        </button>
-    ';
-            })
-            ->rawColumns(['action'])
-            ->make(true);
+        try {
+            // Test basic response first
+            if (request()->has('test')) {
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Route is working',
+                    'timestamp' => now()
+                ]);
+            }
+
+            $reminders = Reminder::with('contact')->get();
+
+            return DataTables::of($reminders)
+                ->addIndexColumn()
+                ->addColumn('action', function ($reminder) {
+                    $editBtn = '<button type="button" class="inline-flex items-center px-3 py-1.5 text-xs font-medium text-white bg-amber-500 hover:bg-amber-600 rounded-lg transition-colors duration-200" title="Edit reminder">Edit</button>';
+                    $deleteBtn = '<button type="button" class="inline-flex items-center px-3 py-1.5 text-xs font-medium text-white bg-red-500 hover:bg-red-600 rounded-lg transition-colors duration-200 ml-2" title="Hapus reminder" onclick="confirmDelete(' . $reminder->id . ', \'' . addslashes($reminder->title ?? '') . '\')">Hapus</button>';
+
+                    return '<div class="flex items-center justify-center space-x-2">' . $editBtn . $deleteBtn . '</div>';
+                })
+                ->addColumn('contact_name', function ($reminder) {
+                    return $reminder->contact ? $reminder->contact->name : '-';
+                })
+                ->editColumn('status', function ($reminder) {
+                    return $reminder->status ?? 'pending';
+                })
+                ->editColumn('reminder_at', function ($reminder) {
+                    if ($reminder->reminder_at) {
+                        try {
+                            return $reminder->reminder_at->format('Y-m-d H:i:s');
+                        } catch (\Exception $e) {
+                            return $reminder->reminder_at;
+                        }
+                    }
+                    return '-';
+                })
+                ->editColumn('description', function ($reminder) {
+                    return $reminder->description ?? '-';
+                })
+                ->editColumn('title', function ($reminder) {
+                    return $reminder->title ?? '-';
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        } catch (\Exception $e) {
+            Log::error('DataTables Error: ' . $e->getMessage(), [
+                'trace' => $e->getTraceAsString(),
+                'request' => request()->all()
+            ]);
+
+            return response()->json([
+                'draw' => request()->get('draw', 0),
+                'recordsTotal' => 0,
+                'recordsFiltered' => 0,
+                'data' => [],
+                'error' => 'Error loading data: ' . $e->getMessage()
+            ], 500);
+        }
     }
 
     public function store(Request $request)

@@ -1,24 +1,9 @@
-/* Hover row */
-table.dataTable tbody tr:hover {
-    background-color: #f9fafb; /* light: gray-50 */
-}
-.dark table.dataTable tbody tr:hover {
-    background-color: #374151; /* dark: gray-700 */
+/* Simple table responsiveness without conflicts */
+#table-wrapper {
+    width: 100%;
 }
 
-/* Pagination */
-.dataTables_wrapper .dataTables_paginate .paginate_button {
-    padding: 0.5rem 0.75rem;
-    margin: 0 0.25rem;
-    border-radius: 0.5rem;
-    background: #f3f4f6; /* light gray-100 */
-    color: #374151 !important; /* gray-700 */
-}
-.dark .dataTables_wrapper .dataTables_paginate .paginate_button {
-    background: #374151; /* dark gray-700 */
-    color: #d1d5db !important; /* gray-300 */
-}
-.dataTables_wrapper .dataTables_paginate .paginate_button.current {
-    background: #2563eb !important; /* blue-600 */
-    color: #fff !important;
+#reminders-table {
+    width: 100%;
+    min-width: 100%;
 }
